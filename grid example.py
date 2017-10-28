@@ -23,8 +23,8 @@ imgV = pygame.image.load('curves_v.bmp')
 def rotate_and_center(ds, x, y, image, degrees):
 
     '''Adjusted the X and Y so the square is rotating in the correct position'''
-    x = x - (WINDOW_SIZE[0]/size)/2
-    y = y - (WINDOW_SIZE[0]/size)/2
+    x = x + (WINDOW_SIZE[0]/size)/2
+    y = y + (WINDOW_SIZE[0]/size)/2
 
     #rotating a square
     global screen
