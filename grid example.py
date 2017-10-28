@@ -16,8 +16,16 @@ grid = []
 tracker = []
 pattern = []
 
+imgH = pygame.image.load('curves_h.bmp')
+imgV = pygame.image.load('curves_v.bmp')
+
 
 def rotate_and_center(ds, x, y, image, degrees):
+
+    '''Adjusted the X and Y so the square is rotating in the correct position'''
+    x = x - (WINDOW_SIZE[0]/size)/2
+    y = y - (WINDOW_SIZE[0]/size)/2
+
     #rotating a square
     global screen
     rotated = pygame.transform.rotate(image, degrees)
@@ -37,22 +45,21 @@ def drawGrid(grid):
     for row in range(len(grid)):
         for column in range(len(grid)):
             if grid[row][column] == 0:
-                img = pygame.image.load('curves_v.bmp')
+                img = imgV
                 color = WHITE
             if grid[row][column] == 1:
-                img = pygame.image.load('curves_h.bmp')
+                img = imgH
                 color = BLACK
             pygame.draw.rect(screen, color,[(WIDTH) * column, (HEIGHT) * row, WIDTH, HEIGHT]) #backup in case of image not loading
             screen.blit(pygame.transform.scale(img, (int(WIDTH), int(HEIGHT))), (int(HEIGHT * column), int(HEIGHT * row)))
 
-
 def updateSquare(row,column):
     #draw single square
     if grid[row][column] == 0:
-        img = pygame.image.load('curves_v.bmp')
+        img = imgV
         color = WHITE
     if grid[row][column] == 1:
-        img = pygame.image.load('curves_h.bmp')
+        img = imgH
         color = BLACK
     pygame.draw.rect(screen, color,[(WIDTH) * column, (HEIGHT) * row, WIDTH, HEIGHT])  # backup in case of image not loading
     screen.blit(pygame.transform.scale(img, (int(WIDTH), int(HEIGHT))), (int(HEIGHT * column), int(HEIGHT * row)))
@@ -330,13 +337,15 @@ while not done:
 
         rotatingTracker.append([contents[0],contents[1],0, grid[contents[0]][contents[1]]])
 
+        '''Redraws the grid each time before a square is rotated, yes it's a little OTT but does work, I can't currently think of a way of doing it any faster'''
+        drawGrid(grid)
+        
         for index, square in enumerate(rotatingTracker):
-
             if square[3] == 1:
 
-                img = pygame.image.load('curves_h.bmp').convert_alpha()
+                img = imgH.convert_alpha()
             else:
-                img = pygame.image.load('curves_v.bmp').convert_alpha()
+                img = imgV.convert_alpha()
 
             img = pygame.transform.scale(img, (int(WIDTH), int(HEIGHT)))
 
